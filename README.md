@@ -1,5 +1,5 @@
 # Bilingual Bridge: English to Spanish Translation
-![Image](https://github.com/user-attachments/assets/0cc3d6e3-fda2-4037-8fad-f08c60442448)
+![Image](https://github.com/user-attachments/assets/9cf6423a-bf57-4ee9-a5ee-70f6cb85658b)
 ## 📌 Overview
 A production-grade neural machine translation (NMT) system that translates English text to Spanish using a fine-tuned sequence-to-sequence transformer model. Deployed with a responsive Streamlit UI, containerized with Docker, and integrated with GitHub CI/CD for continuous delivery.
 
