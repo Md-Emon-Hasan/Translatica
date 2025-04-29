@@ -1,0 +1,8 @@
+streamlit
+transformers
+datasets
+evaluate
+sacrebleu
+torch
+pytest
+sentencepiece
