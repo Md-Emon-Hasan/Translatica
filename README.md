@@ -1,5 +1,5 @@
 # Bilingual Bridge: English to Spanish Translation
-![Image](https://github.com/user-attachments/assets/0cc3d6e3-fda2-4037-8fad-f08c60442448)
+[![Image](https://github.com/user-attachments/assets/0cc3d6e3-fda2-4037-8fad-f08c60442448)](https://github.com/user-attachments/assets/55599f0a-0a62-4bee-9406-b79212dd3890)
 ## 📌 Overview
 Build a Machine Translation System capable of translating English text into Spanish using a fine-tuned Transformer-based model. The goal is to adapt a pre-trained multilingual model (Helsinki-NLP/opus-mt-en-es) on a domain-specific parallel corpus to improve translation. Deployed with a responsive Streamlit UI, containerized with Docker, and integrated with GitHub CI/CD for continuous delivery.
 
