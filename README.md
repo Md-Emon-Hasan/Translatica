@@ -125,7 +125,7 @@ docker run -p 8501:8501 bilingual-bridge
 
 ---
 
-## 🖥️ Streamlit Web App
+## 🖥️ Web App
 Features:
 - Input box for English text
 - Button-triggered translation
