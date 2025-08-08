@@ -32,7 +32,7 @@ jobs:
           ${{ runner.os }}-buildx-
 
     - name: Build Docker image
-      run: docker build -t bilingual-bridge .
+      run: docker build -t translatica .
 
     - name: Test the application (Run tests inside container)
-      run: docker run --rm bilingual-bridge pytest tests/
+      run: docker run --rm translatica pytest tests/

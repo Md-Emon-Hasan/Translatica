@@ -1,4 +1,3 @@
-streamlit
 transformers
 datasets
 evaluate
@@ -6,3 +5,10 @@ sacrebleu
 torch
 pytest
 sentencepiece
+gunicorn
+flask
+peft
+accelerate
+scipy
+numpy
+protobuf

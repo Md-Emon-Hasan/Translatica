@@ -1,21 +1,30 @@
-from setuptools import setup, find_packages
+from setuptools import setup
+from setuptools import find_packages
 
 setup(
-    name='bilingual-bridge',
+    name='Translatica',
     version='1.0.0',
     packages=find_packages(),
     install_requires=[
-        'streamlit==1.20.0',
-        'transformers==4.28.0',
-        'datasets==2.12.0',
-        'evaluate==0.3.0',
-        'sacrebleu==2.3.1',
-        'torch==2.1.0',
+        'transformers',
+        'datasets',
+        'evaluate',
+        'sacrebleu',
+        'torch',
+        'pytest',
+        'sentencepiece'.
+        'gunicorn',
+        'flask',
+        'peft',
+        'accelerate',
+        'scipy',
+        'numpy',
+        'protobuf'
     ],
-    description='A fine-tuned English to Spanish translation model using Streamlit and Hugging Face',
+    description='A fine-tuned English to Spanish translation model using Flask and Hugging Face',
     author='Md Emon Hasan',
     author_email='iconicemon01@gmail.com',
-    url='https://github.com/Md-Emon-Hasan',  
+    url='https://github.com/Md-Emon-Hasan/Translatica',  
     classifiers=[
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.7',
