@@ -37,7 +37,7 @@ model = load_model(MODEL_CKPT)
 lora_config = LoraConfig(
     r=8,
     lora_alpha=32,
-    target_modules=["q_proj", "v_proj"],  # Adjust for model type
+    target_modules=["q_proj", "v_proj"],
     lora_dropout=0.1,
     bias="none",
     task_type=TaskType.SEQ_2_SEQ_LM
@@ -59,7 +59,7 @@ training_args = Seq2SeqTrainingArguments(
     logging_steps=100,
     save_strategy="epoch",
     predict_with_generate=True,
-    fp16=torch.cuda.is_available(),  # Optional: if CUDA available
+    fp16=torch.cuda.is_available(),
 )
 
 # Data Collator
@@ -77,7 +77,7 @@ def compute_metrics(eval_preds):
     decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
     decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
 
-    # Important: BLEU expects list of strings for preds and list of list of strings for refs
+    # BLEU expects list of strings for preds and list of list of strings for refs
     # So wrap references inside list
     references = [[ref] for ref in decoded_labels]
 

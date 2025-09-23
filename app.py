@@ -26,7 +26,6 @@ model.to(device)
 model.eval()
 print("Model & Tokenizer loaded.")
 
-# Routes
 @app.route("/")
 def index():
     return render_template("index.html")
