@@ -3,7 +3,7 @@
 ## 📌 Overview
 Translatica is a Fine-tuned(with PEFT + LoRA) full-stack, LLM-powered translation system. This Machine Translation System capable of translating English text into Spanish using a fine-tuned Transformer-based model. Deployed with a responsive HTML, CSS & Flask, containerized with Docker, and integrated with GitHub CI/CD for continuous delivery.
 
-[![Image](https://github.com/user-attachments/assets/4fcf331c-31d4-4ff6-b71b-41077c4dfe46)
+[![Image](https://github.com/user-attachments/assets/4fcf331c-31d4-4ff6-b71b-41077c4dfe46)](https://github.com/user-attachments/assets/4fcf331c-31d4-4ff6-b71b-41077c4dfe46)
 
 ---
 
