@@ -209,8 +209,8 @@ docker run -p 8501:8501 translatica
 
 ## How to Run (Locally)
 ```bash
-git clone https://github.com/Md-Emon-Hasan/Bilingual-Bridge
-cd bilingual-bridge
+git clone https://github.com/Md-Emon-Hasan/Translatica
+cd translatica
 pip install -r requirements.txt
 streamlit run app.py
 ```
