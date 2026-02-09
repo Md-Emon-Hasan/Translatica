@@ -1,4 +1,3 @@
-import os
 import sys
 from pathlib import Path
 
@@ -8,9 +7,9 @@ current_dir = Path(__file__).parent.absolute()
 # Get the project root (parent of training/)
 project_root = current_dir.parent.absolute()
 
-sys.path.append(str(project_root))
+sys.path.insert(0, str(project_root))
 
-from training.train import main
+from training.train import main  # noqa: E402
 
 if __name__ == "__main__":
     print("Starting Model Training...")
