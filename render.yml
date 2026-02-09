@@ -1,7 +1,12 @@
 services:
   - type: web
     name: translatica
-    env: python
-    buildCommand: ""
-    startCommand: gunicorn app:app -b 0.0.0.0:$PORT
-    plan: free
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: DEVICE
+        value: cpu
+    healthCheckPath: /health

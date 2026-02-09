@@ -1,0 +1,373 @@
+2026-02-09 01:05:34 [INFO] routes: Translating text of length 11
+2026-02-09 01:05:34 [INFO] routes: Translation completed successfully
+2026-02-09 01:05:35 [INFO] routes: Translating text of length 489
+2026-02-09 01:05:35 [INFO] routes: Translation completed successfully
+2026-02-09 01:05:35 [INFO] routes: Translating text of length 19
+2026-02-09 01:05:35 [INFO] routes: Translation completed successfully
+2026-02-09 01:05:35 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:05:35 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:05:35 [INFO] model: Moving model to device: cpu
+2026-02-09 01:05:35 [INFO] model: Model loaded successfully!
+2026-02-09 01:05:35 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:05:35 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:05:35 [INFO] model: Moving model to device: cpu
+2026-02-09 01:05:35 [INFO] model: Model loaded successfully!
+2026-02-09 01:05:35 [INFO] model: Model already loaded.
+2026-02-09 01:05:35 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:05:35 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:05:35 [INFO] model: Moving model to device: cpu
+2026-02-09 01:05:35 [INFO] model: Model loaded successfully!
+2026-02-09 01:05:35 [INFO] model: Model resources cleaned up.
+2026-02-09 01:05:35 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:05:35 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:05:35 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:05:35 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:05:35 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:05:35 [INFO] translation_service: Translating text of length 1299
+2026-02-09 01:05:35 [INFO] translation_service: Translation completed, output length 1200
+2026-02-09 01:07:25 [INFO] routes: Translating text of length 11
+2026-02-09 01:07:25 [INFO] routes: Translation completed successfully
+2026-02-09 01:07:25 [INFO] routes: Translating text of length 489
+2026-02-09 01:07:25 [INFO] routes: Translation completed successfully
+2026-02-09 01:07:25 [INFO] routes: Translating text of length 19
+2026-02-09 01:07:25 [INFO] routes: Translation completed successfully
+2026-02-09 01:07:25 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:07:25 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:07:25 [INFO] model: Moving model to device: cpu
+2026-02-09 01:07:25 [INFO] model: Model loaded successfully!
+2026-02-09 01:07:25 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:07:25 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:07:25 [INFO] model: Moving model to device: cpu
+2026-02-09 01:07:25 [INFO] model: Model loaded successfully!
+2026-02-09 01:07:25 [INFO] model: Model already loaded.
+2026-02-09 01:07:25 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:07:25 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:07:25 [INFO] model: Moving model to device: cpu
+2026-02-09 01:07:25 [INFO] model: Model loaded successfully!
+2026-02-09 01:07:25 [INFO] model: Model resources cleaned up.
+2026-02-09 01:07:25 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:07:25 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:07:25 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:07:25 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:07:25 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:07:25 [INFO] translation_service: Translating text of length 1299
+2026-02-09 01:07:25 [INFO] translation_service: Translation completed, output length 1200
+2026-02-09 01:15:19 [INFO] routes: Translating text of length 11
+2026-02-09 01:15:19 [INFO] routes: Translation completed successfully
+2026-02-09 01:15:19 [INFO] routes: Translating text of length 489
+2026-02-09 01:15:19 [INFO] routes: Translation completed successfully
+2026-02-09 01:15:19 [INFO] routes: Translating text of length 19
+2026-02-09 01:15:19 [INFO] routes: Translation completed successfully
+2026-02-09 01:15:19 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:15:19 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:15:19 [INFO] model: Moving model to device: cpu
+2026-02-09 01:15:19 [INFO] model: Model loaded successfully!
+2026-02-09 01:15:19 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:15:19 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:15:19 [INFO] model: Moving model to device: cpu
+2026-02-09 01:15:19 [INFO] model: Model loaded successfully!
+2026-02-09 01:15:19 [INFO] model: Model already loaded.
+2026-02-09 01:15:19 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:15:19 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:15:19 [INFO] model: Moving model to device: cpu
+2026-02-09 01:15:19 [INFO] model: Model loaded successfully!
+2026-02-09 01:15:19 [INFO] model: Model resources cleaned up.
+2026-02-09 01:15:19 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:15:19 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:15:19 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:15:19 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:15:19 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:15:19 [INFO] translation_service: Translating text of length 1299
+2026-02-09 01:15:19 [INFO] translation_service: Translation completed, output length 1200
+2026-02-09 01:17:20 [INFO] routes: Translating text of length 11
+2026-02-09 01:17:20 [INFO] routes: Translation completed successfully
+2026-02-09 01:17:20 [INFO] routes: Translating text of length 489
+2026-02-09 01:17:20 [INFO] routes: Translation completed successfully
+2026-02-09 01:17:20 [INFO] routes: Translating text of length 19
+2026-02-09 01:17:20 [INFO] routes: Translation completed successfully
+2026-02-09 01:17:20 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:17:20 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:17:20 [INFO] model: Moving model to device: cpu
+2026-02-09 01:17:20 [INFO] model: Model loaded successfully!
+2026-02-09 01:17:20 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:17:20 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:17:20 [INFO] model: Moving model to device: cpu
+2026-02-09 01:17:20 [INFO] model: Model loaded successfully!
+2026-02-09 01:17:20 [INFO] model: Model already loaded.
+2026-02-09 01:17:20 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:17:20 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:17:20 [INFO] model: Moving model to device: cpu
+2026-02-09 01:17:20 [INFO] model: Model loaded successfully!
+2026-02-09 01:17:20 [INFO] model: Model resources cleaned up.
+2026-02-09 01:17:20 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:17:20 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:17:20 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:17:20 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:17:20 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:17:20 [INFO] translation_service: Translating text of length 1299
+2026-02-09 01:17:20 [INFO] translation_service: Translation completed, output length 1200
+2026-02-09 01:19:57 [INFO] routes: Translating text of length 11
+2026-02-09 01:19:57 [INFO] routes: Translation completed successfully
+2026-02-09 01:19:57 [INFO] routes: Translating text of length 489
+2026-02-09 01:19:57 [INFO] routes: Translation completed successfully
+2026-02-09 01:19:57 [INFO] routes: Translating text of length 19
+2026-02-09 01:19:57 [INFO] routes: Translation completed successfully
+2026-02-09 01:19:57 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:19:57 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:19:57 [INFO] model: Moving model to device: cpu
+2026-02-09 01:19:57 [INFO] model: Model loaded successfully!
+2026-02-09 01:19:57 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:19:57 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:19:57 [INFO] model: Moving model to device: cpu
+2026-02-09 01:19:57 [INFO] model: Model loaded successfully!
+2026-02-09 01:19:57 [INFO] model: Model already loaded.
+2026-02-09 01:19:57 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:19:57 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:19:57 [INFO] model: Moving model to device: cpu
+2026-02-09 01:19:57 [INFO] model: Model loaded successfully!
+2026-02-09 01:19:57 [INFO] model: Model resources cleaned up.
+2026-02-09 01:19:57 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:19:57 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:19:57 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:19:57 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:19:57 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:19:57 [INFO] translation_service: Translating text of length 1299
+2026-02-09 01:19:57 [INFO] translation_service: Translation completed, output length 1200
+2026-02-09 01:24:01 [INFO] routes: Translating text of length 11
+2026-02-09 01:24:01 [INFO] routes: Translation completed successfully
+2026-02-09 01:24:01 [INFO] routes: Translating text of length 489
+2026-02-09 01:24:01 [INFO] routes: Translation completed successfully
+2026-02-09 01:24:01 [INFO] routes: Translating text of length 19
+2026-02-09 01:24:01 [INFO] routes: Translation completed successfully
+2026-02-09 01:24:01 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:24:01 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:24:01 [INFO] model: Moving model to device: cpu
+2026-02-09 01:24:01 [INFO] model: Model loaded successfully!
+2026-02-09 01:24:01 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:24:01 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:24:01 [INFO] model: Moving model to device: cpu
+2026-02-09 01:24:01 [INFO] model: Model loaded successfully!
+2026-02-09 01:24:01 [INFO] model: Model already loaded.
+2026-02-09 01:24:01 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:24:01 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:24:01 [INFO] model: Moving model to device: cpu
+2026-02-09 01:24:01 [INFO] model: Model loaded successfully!
+2026-02-09 01:24:01 [INFO] model: Model resources cleaned up.
+2026-02-09 01:24:01 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:24:01 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:24:01 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:24:01 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:24:01 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:24:01 [INFO] translation_service: Translating text of length 1299
+2026-02-09 01:24:01 [INFO] translation_service: Translation completed, output length 1200
+2026-02-09 01:25:56 [INFO] routes: Translating text of length 11
+2026-02-09 01:25:56 [INFO] routes: Translation completed successfully
+2026-02-09 01:25:56 [INFO] routes: Translating text of length 489
+2026-02-09 01:25:56 [INFO] routes: Translation completed successfully
+2026-02-09 01:25:56 [INFO] routes: Translating text of length 19
+2026-02-09 01:25:56 [INFO] routes: Translation completed successfully
+2026-02-09 01:25:56 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:25:56 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:25:56 [INFO] model: Moving model to device: cpu
+2026-02-09 01:25:56 [INFO] model: Model loaded successfully!
+2026-02-09 01:25:56 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:25:56 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:25:56 [INFO] model: Moving model to device: cpu
+2026-02-09 01:25:56 [INFO] model: Model loaded successfully!
+2026-02-09 01:25:56 [INFO] model: Model already loaded.
+2026-02-09 01:25:56 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:25:56 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:25:56 [INFO] model: Moving model to device: cpu
+2026-02-09 01:25:56 [INFO] model: Model loaded successfully!
+2026-02-09 01:25:56 [INFO] model: Model resources cleaned up.
+2026-02-09 01:25:56 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:25:56 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:25:56 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:25:56 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:25:56 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:25:56 [INFO] translation_service: Translating text of length 1299
+2026-02-09 01:25:56 [INFO] translation_service: Translation completed, output length 1200
+2026-02-09 01:27:15 [INFO] routes: Translating text of length 11
+2026-02-09 01:27:15 [INFO] routes: Translation completed successfully
+2026-02-09 01:27:15 [INFO] routes: Translating text of length 489
+2026-02-09 01:27:15 [INFO] routes: Translation completed successfully
+2026-02-09 01:27:15 [INFO] routes: Translating text of length 19
+2026-02-09 01:27:15 [INFO] routes: Translation completed successfully
+2026-02-09 01:27:15 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:27:15 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:27:15 [INFO] model: Moving model to device: cpu
+2026-02-09 01:27:15 [INFO] model: Model loaded successfully!
+2026-02-09 01:27:15 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:27:15 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:27:15 [INFO] model: Moving model to device: cpu
+2026-02-09 01:27:15 [INFO] model: Model loaded successfully!
+2026-02-09 01:27:15 [INFO] model: Model already loaded.
+2026-02-09 01:27:15 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:27:15 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:27:15 [INFO] model: Moving model to device: cpu
+2026-02-09 01:27:15 [INFO] model: Model loaded successfully!
+2026-02-09 01:27:15 [INFO] model: Model resources cleaned up.
+2026-02-09 01:27:15 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:27:15 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:27:15 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:27:15 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:27:15 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:27:15 [INFO] translation_service: Translating text of length 1299
+2026-02-09 01:27:15 [INFO] translation_service: Translation completed, output length 1200
+2026-02-09 01:28:50 [INFO] routes: Translating text of length 11
+2026-02-09 01:28:50 [INFO] routes: Translation completed successfully
+2026-02-09 01:28:50 [INFO] routes: Translating text of length 489
+2026-02-09 01:28:50 [INFO] routes: Translation completed successfully
+2026-02-09 01:28:50 [INFO] routes: Translating text of length 19
+2026-02-09 01:28:50 [INFO] routes: Translation completed successfully
+2026-02-09 01:28:50 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:28:50 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:28:50 [INFO] model: Moving model to device: cpu
+2026-02-09 01:28:50 [INFO] model: Model loaded successfully!
+2026-02-09 01:28:50 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:28:50 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:28:50 [INFO] model: Moving model to device: cpu
+2026-02-09 01:28:50 [INFO] model: Model loaded successfully!
+2026-02-09 01:28:50 [INFO] model: Model already loaded.
+2026-02-09 01:28:50 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:28:50 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:28:50 [INFO] model: Moving model to device: cpu
+2026-02-09 01:28:50 [INFO] model: Model loaded successfully!
+2026-02-09 01:28:50 [INFO] model: Model resources cleaned up.
+2026-02-09 01:28:50 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:28:50 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:28:50 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:28:50 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:28:50 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:28:50 [INFO] translation_service: Translating text of length 1299
+2026-02-09 01:28:50 [INFO] translation_service: Translation completed, output length 1200
+2026-02-09 01:36:26 [INFO] routes: Translating text of length 11
+2026-02-09 01:36:26 [INFO] routes: Translation completed successfully
+2026-02-09 01:36:26 [INFO] routes: Translating text of length 489
+2026-02-09 01:36:26 [INFO] routes: Translation completed successfully
+2026-02-09 01:36:26 [INFO] routes: Translating text of length 19
+2026-02-09 01:36:26 [INFO] routes: Translation completed successfully
+2026-02-09 01:36:26 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:36:26 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:36:26 [INFO] model: Moving model to device: cpu
+2026-02-09 01:36:26 [INFO] model: Model loaded successfully!
+2026-02-09 01:36:26 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:36:26 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:36:26 [INFO] model: Moving model to device: cpu
+2026-02-09 01:36:26 [INFO] model: Model loaded successfully!
+2026-02-09 01:36:26 [INFO] model: Model already loaded.
+2026-02-09 01:36:26 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-09 01:36:26 [INFO] model: Loading model from /path/to/model
+2026-02-09 01:36:26 [INFO] model: Moving model to device: cpu
+2026-02-09 01:36:26 [INFO] model: Model loaded successfully!
+2026-02-09 01:36:26 [INFO] model: Model resources cleaned up.
+2026-02-09 01:36:26 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:36:26 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:36:26 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:36:26 [INFO] translation_service: Translation completed, output length 10
+2026-02-09 01:36:26 [INFO] translation_service: Translating text of length 11
+2026-02-09 01:36:26 [INFO] translation_service: Translating text of length 1299
+2026-02-09 01:36:26 [INFO] translation_service: Translation completed, output length 1200
+2026-02-09 01:42:54 [INFO] main: Starting application...
+2026-02-09 01:42:54 [INFO] main: Loading ML model...
+2026-02-09 01:42:54 [INFO] model: Loading tokenizer from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-tokenizer
+2026-02-09 01:42:54 [INFO] model: Loading model from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-model
+2026-02-09 01:43:25 [INFO] model: Moving model to device: cpu
+2026-02-09 01:43:25 [INFO] model: Model loaded successfully!
+2026-02-09 01:43:25 [INFO] main: Model loaded successfully!
+2026-02-09 01:55:37 [INFO] main: Starting application...
+2026-02-09 01:55:37 [INFO] main: Loading ML model...
+2026-02-09 01:55:37 [INFO] model: Loading tokenizer from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-tokenizer
+2026-02-09 01:55:37 [INFO] model: Loading model from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-model
+2026-02-09 01:55:40 [INFO] model: Moving model to device: cpu
+2026-02-09 01:55:40 [INFO] model: Model loaded successfully!
+2026-02-09 01:55:40 [INFO] main: Model loaded successfully!
+2026-02-09 01:57:36 [INFO] main: Starting application...
+2026-02-09 01:57:36 [INFO] main: Loading ML model...
+2026-02-09 01:57:36 [INFO] model: Loading tokenizer from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-tokenizer
+2026-02-09 01:57:36 [INFO] model: Loading model from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-model
+2026-02-09 01:57:39 [INFO] model: Moving model to device: cpu
+2026-02-09 01:57:39 [INFO] model: Model loaded successfully!
+2026-02-09 01:57:39 [INFO] main: Model loaded successfully!
+2026-02-09 01:58:20 [INFO] main: Shutting down application...
+2026-02-09 01:58:20 [INFO] model: Model resources cleaned up.
+2026-02-09 01:58:20 [INFO] main: Cleanup complete.
+2026-02-09 02:04:07 [INFO] main: Starting application...
+2026-02-09 02:04:07 [INFO] main: Loading ML model...
+2026-02-09 02:04:07 [INFO] model: Loading tokenizer from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-tokenizer
+2026-02-09 02:04:07 [INFO] model: Loading model from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-model
+2026-02-09 02:04:11 [INFO] model: Moving model to device: cpu
+2026-02-09 02:04:11 [INFO] model: Model loaded successfully!
+2026-02-09 02:04:11 [INFO] main: Model loaded successfully!
+2026-02-09 23:16:53 [INFO] main: Starting application...
+2026-02-09 23:16:53 [INFO] main: Loading ML model...
+2026-02-09 23:16:53 [INFO] model: Loading tokenizer from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-tokenizer
+2026-02-09 23:16:53 [INFO] model: Loading model from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-model
+2026-02-09 23:16:57 [INFO] model: Moving model to device: cpu
+2026-02-09 23:16:57 [INFO] model: Model loaded successfully!
+2026-02-09 23:16:57 [INFO] main: Model loaded successfully!
+2026-02-09 23:24:11 [INFO] main: Starting application...
+2026-02-09 23:24:11 [INFO] main: Loading ML model...
+2026-02-09 23:24:11 [INFO] model: Loading tokenizer from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-tokenizer
+2026-02-09 23:24:11 [INFO] model: Loading model from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-model
+2026-02-09 23:24:14 [INFO] model: Moving model to device: cpu
+2026-02-09 23:24:14 [INFO] model: Model loaded successfully!
+2026-02-09 23:24:14 [INFO] main: Model loaded successfully!
+2026-02-09 23:29:51 [INFO] main: Starting application...
+2026-02-09 23:29:51 [INFO] main: Loading ML model...
+2026-02-09 23:29:51 [INFO] model: Loading tokenizer from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-tokenizer
+2026-02-09 23:29:52 [INFO] model: Loading model from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-model
+2026-02-09 23:29:54 [INFO] model: Moving model to device: cpu
+2026-02-09 23:29:54 [INFO] model: Model loaded successfully!
+2026-02-09 23:29:54 [INFO] main: Model loaded successfully!
+2026-02-09 23:37:26 [INFO] main: Starting application...
+2026-02-09 23:37:26 [INFO] main: Loading ML model...
+2026-02-09 23:37:26 [INFO] model: Loading tokenizer from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-tokenizer
+2026-02-09 23:37:26 [INFO] model: Loading model from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-model
+2026-02-09 23:37:29 [INFO] model: Moving model to device: cpu
+2026-02-09 23:37:29 [INFO] model: Model loaded successfully!
+2026-02-09 23:37:29 [INFO] main: Model loaded successfully!
+2026-02-09 23:51:43 [INFO] main: Starting application...
+2026-02-09 23:51:43 [INFO] main: Loading ML model...
+2026-02-09 23:51:43 [INFO] model: Loading tokenizer from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-tokenizer
+2026-02-09 23:51:44 [INFO] model: Loading model from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-model
+2026-02-09 23:51:47 [INFO] model: Moving model to device: cpu
+2026-02-09 23:51:47 [INFO] model: Model loaded successfully!
+2026-02-09 23:51:47 [INFO] main: Model loaded successfully!
+2026-02-09 23:52:21 [INFO] main: Shutting down application...
+2026-02-09 23:52:21 [INFO] model: Model resources cleaned up.
+2026-02-09 23:52:21 [INFO] main: Cleanup complete.
+2026-02-09 23:54:26 [INFO] main: Starting application...
+2026-02-09 23:54:26 [INFO] main: Loading ML model...
+2026-02-09 23:54:26 [INFO] model: Loading tokenizer from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-tokenizer
+2026-02-09 23:54:26 [INFO] model: Loading model from C:\Users\emon1\Desktop\project structure\Translatica\fine-tuned-model\fine-tuned-model
+2026-02-09 23:54:30 [INFO] model: Moving model to device: cpu
+2026-02-09 23:54:30 [INFO] model: Model loaded successfully!
+2026-02-09 23:54:30 [INFO] main: Model loaded successfully!
+2026-02-10 00:09:29 [INFO] routes: Translating text of length 11
+2026-02-10 00:09:29 [INFO] routes: Translation completed successfully
+2026-02-10 00:09:29 [INFO] routes: Translating text of length 489
+2026-02-10 00:09:29 [INFO] routes: Translation completed successfully
+2026-02-10 00:09:29 [INFO] routes: Translating text of length 19
+2026-02-10 00:09:29 [INFO] routes: Translation completed successfully
+2026-02-10 00:09:29 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-10 00:09:29 [INFO] model: Loading model from /path/to/model
+2026-02-10 00:09:29 [INFO] model: Moving model to device: cpu
+2026-02-10 00:09:29 [INFO] model: Model loaded successfully!
+2026-02-10 00:09:29 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-10 00:09:29 [INFO] model: Loading model from /path/to/model
+2026-02-10 00:09:29 [INFO] model: Moving model to device: cpu
+2026-02-10 00:09:29 [INFO] model: Model loaded successfully!
+2026-02-10 00:09:29 [INFO] model: Model already loaded.
+2026-02-10 00:09:29 [INFO] model: Loading tokenizer from /path/to/tokenizer
+2026-02-10 00:09:29 [INFO] model: Loading model from /path/to/model
+2026-02-10 00:09:29 [INFO] model: Moving model to device: cpu
+2026-02-10 00:09:29 [INFO] model: Model loaded successfully!
+2026-02-10 00:09:29 [INFO] model: Model resources cleaned up.
+2026-02-10 00:09:29 [INFO] translation_service: Translating text of length 11
+2026-02-10 00:09:29 [INFO] translation_service: Translation completed, output length 10
+2026-02-10 00:09:29 [INFO] translation_service: Translating text of length 11
+2026-02-10 00:09:29 [INFO] translation_service: Translation completed, output length 10
+2026-02-10 00:09:29 [INFO] translation_service: Translating text of length 11
+2026-02-10 00:09:29 [INFO] translation_service: Translating text of length 1299
+2026-02-10 00:09:29 [INFO] translation_service: Translation completed, output length 1200
