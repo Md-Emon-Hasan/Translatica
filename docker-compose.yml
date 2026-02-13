@@ -1,40 +1,33 @@
-services:
-  # Production service
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
-    environment:
-      - PYTHONPATH=/app
-      - DEBUG=false
-    volumes:
-      - ./logs:/app/logs
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    restart: unless-stopped
+version: '3.8'
 
-  # Development service with hot reload
-  dev:
-    build:
-      context: .
+services:
+  backend:
+    build: 
+      context: ./backend
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    environment:
-      - PYTHONPATH=/app
-      - DEBUG=true
     volumes:
-      - ./app:/app/app
-      - ./training:/app/training
-      - ./templates:/app/templates
-      - ./static:/app/static
-      - ./logs:/app/logs
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-    profiles:
-      - dev
+      - ./backend:/app:ro
+      - ./backend/logs:/app/logs
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - translatica-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - translatica-net
+
+networks:
+  translatica-net:
+    driver: bridge

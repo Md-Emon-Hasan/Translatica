@@ -2,8 +2,8 @@ services:
   - type: web
     name: translatica
     runtime: docker
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
     envVars:
       - key: PORT
         value: 8000

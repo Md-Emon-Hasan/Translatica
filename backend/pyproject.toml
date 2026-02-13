@@ -1,0 +1,131 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "translatica"
+version = "1.0.0"
+description = "AI-powered English to Spanish translation API using LoRA fine-tuned transformer"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Md Emon Hasan", email = "iconicemon01@gmail.com"}
+]
+keywords = ["translation", "nlp", "fastapi", "transformers", "lora", "peft"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Linguistic",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "transformers>=4.36.0",
+    "torch>=2.0.0",
+    "sentencepiece>=0.1.99",
+    "peft>=0.7.0",
+    "jinja2>=3.1.0",
+    "python-multipart>=0.0.6",
+    "accelerate>=0.25.0",
+    "protobuf>=4.25.0",
+    "sqlalchemy>=2.0.0",
+    "aiosqlite>=0.19.0",
+    "gunicorn>=21.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.23.0",
+    "httpx>=0.26.0",
+    "flake8>=7.0.0",
+    "isort>=5.13.0",
+    "black>=24.1.0",
+]
+training = [
+    "datasets>=2.16.0",
+    "evaluate>=0.4.0",
+    "sacrebleu>=2.4.0",
+    "accelerate>=0.25.0",
+    "scipy>=1.11.0",
+    "numpy>=1.24.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Md-Emon-Hasan/Translatica"
+Repository = "https://github.com/Md-Emon-Hasan/Translatica"
+Documentation = "https://github.com/Md-Emon-Hasan/Translatica#readme"
+
+[project.scripts]
+translatica = "app.main:app"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+source = ["app"]
+omit = ["*/tests/*", "*/__pycache__/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
+
+[tool.isort]
+profile = "black"
+line_length = 88
+skip_gitignore = true
+known_first_party = ["app"]
+
+[tool.black]
+line-length = 88
+target-version = ["py310", "py311", "py312"]
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | fine-tuned-model
+)/
+'''
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".venv",
+    "fine-tuned-model",
+]
