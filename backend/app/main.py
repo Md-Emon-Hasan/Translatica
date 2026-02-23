@@ -22,14 +22,21 @@ logger = get_logger("main")
 async def lifespan(app: FastAPI):
     """Application lifespan - load model on startup, cleanup on shutdown."""
     logger.info("Starting application...")
-    logger.info("Loading ML model...")
-    model_manager.load()
-    logger.info("Model loaded successfully!")
+    
+    # Load model in a background thread
+    import threading
+    def load_task():
+        try:
+            model_manager.load()
+            logger.info("Model loaded successfully!")
+        except Exception as e:
+            logger.error(f"CRITICAL: Failed to load model: {e}")
+
+    threading.Thread(target=load_task, daemon=True).start()
 
     logger.info("Initializing database...")
     await init_db()
-    logger.info("Database initialized!")
-
+    
     yield
     logger.info("Shutting down application...")
     model_manager.cleanup()

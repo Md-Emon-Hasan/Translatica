@@ -20,8 +20,9 @@ export const translateText = async (text: string): Promise<string> => {
         }
         return response.data.translation || '';
     } catch (error) {
-        if (axios.isAxiosError(error) && error.response?.data?.error) {
-            throw new Error(error.response.data.error);
+        if (axios.isAxiosError(error)) {
+            const msg = error.response?.data?.detail || error.response?.data?.error;
+            if (msg) throw new Error(msg);
         }
         throw new Error('Failed to connect to translation service.');
     }

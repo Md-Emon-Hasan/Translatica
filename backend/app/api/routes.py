@@ -62,6 +62,10 @@ async def translate(
 
     Returns the Spanish translation.
     """
+    from app.core.model import model_manager
+    if not model_manager.is_loaded:
+        raise HTTPException(status_code=503, detail="Model is loading (usually takes 30-60s). Please refresh in a moment.")
+
     try:
         text = request.text.strip()
         if not text:

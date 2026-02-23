@@ -10,6 +10,7 @@ torch>=2.0.0
 sentencepiece>=0.1.99
 peft>=0.7.0
 accelerate>=0.25.0
+sacremoses>=0.1.1
 
 # Training dependencies
 datasets>=2.16.0
