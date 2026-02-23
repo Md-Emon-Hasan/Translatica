@@ -22,9 +22,10 @@ logger = get_logger("main")
 async def lifespan(app: FastAPI):
     """Application lifespan - load model on startup, cleanup on shutdown."""
     logger.info("Starting application...")
-    
+
     # Load model in a background thread
     import threading
+
     def load_task():
         try:
             model_manager.load()
@@ -36,7 +37,7 @@ async def lifespan(app: FastAPI):
 
     logger.info("Initializing database...")
     await init_db()
-    
+
     yield
     logger.info("Shutting down application...")
     model_manager.cleanup()
@@ -45,7 +46,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title=settings.APP_NAME,
-    description="AI-powered English to Spanish translation API using LoRA fine-tuned transformer",
+    description="AI English-Spanish translator",
     version="1.0.0",
     lifespan=lifespan,
 )

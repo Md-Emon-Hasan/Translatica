@@ -63,8 +63,12 @@ async def translate(
     Returns the Spanish translation.
     """
     from app.core.model import model_manager
+
     if not model_manager.is_loaded:
-        raise HTTPException(status_code=503, detail="Model is loading (usually takes 30-60s). Please refresh in a moment.")
+        raise HTTPException(
+            status_code=503,
+            detail="Model is loading (takes 30-60s). Please refresh.",
+        )
 
     try:
         text = request.text.strip()
@@ -84,7 +88,7 @@ async def translate(
             db.add(db_translation)
             await db.commit()
             await db.refresh(db_translation)
-            logger.info(f"Translation saved to DB with ID: {db_translation.id}")
+            logger.info(f"Saved to DB: {db_translation.id}")
         except Exception as e:
             logger.error(f"Failed to save translation to DB: {e}")
             # We don't fail the request if saving to DB fails, just log it
@@ -96,7 +100,7 @@ async def translate(
         raise
     except Exception as e:
         logger.error(f"Translation error: {e}")
-        raise HTTPException(status_code=500, detail="Translation failed") from e
+        raise HTTPException(status_code=500, detail="Translation error") from e
 
 
 @router.get("/health", response_model=HealthResponse)
