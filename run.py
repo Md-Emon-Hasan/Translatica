@@ -1,47 +1,33 @@
-import subprocess, os, sys, time
-from threading import Thread
+import os, sys, time, subprocess
+from pathlib import Path
 
-def stream(pipe, label):
-    for line in iter(pipe.readline, b''):
-        if line: print(f"[{label}] {line.decode('utf-8', 'ignore').strip()}")
-
-def start():
-    root = os.path.dirname(os.path.abspath(__file__))
-    frontend, backend = os.path.join(root, "frontend"), os.path.join(root, "backend")
+def run():
+    root = Path(__file__).parent
+    py = root / ".venv" / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
     npm = "npm.cmd" if os.name == "nt" else "npm"
 
-    # Quick check
-    if not os.path.exists(os.path.join(frontend, "node_modules")):
-        print("Installing frontend dependencies...")
-        subprocess.run([npm, "install"], cwd=frontend, shell=True)
+    if not py.exists():
+        subprocess.run([sys.executable, "-m", "venv", ".venv"])
 
-    print("\nStarting Translatica...")
-    
-    # Run Backend
-    env = os.environ.copy()
-    env["PYTHONPATH"] = backend
-    be = subprocess.Popen([sys.executable, "-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8000"], 
-                          cwd=backend, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    
-    # Run Frontend
-    fe = subprocess.Popen([npm, "run", "dev"], cwd=frontend, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+    # Ensure dependencies are installed (idempotent)
+    subprocess.run([str(py), "-m", "pip", "install", "-r", "backend/requirements.txt", "--quiet"])
 
-    Thread(target=stream, args=(be.stdout, "BACKEND"), daemon=True).start()
-    Thread(target=stream, args=(fe.stdout, "FRONTEND"), daemon=True).start()
+    if not (root / "frontend/node_modules").exists():
+        subprocess.run([npm, "install"], cwd="frontend", shell=True)
+
+    print(">>> Starting Translatica...")
+    be = subprocess.Popen([str(py), "-m", "uvicorn", "app.main:app", "--port", "8000"], 
+                          cwd="backend", env={**os.environ, "PYTHONPATH": "backend"})
+    fe = subprocess.Popen([npm, "run", "dev"], cwd="frontend", shell=True)
 
     try:
-        while True:
-            time.sleep(1)
-            if be.poll() is not None or fe.poll() is not None: break
-    except KeyboardInterrupt:
-        pass
+        while be.poll() is None and fe.poll() is None: time.sleep(1)
+    except KeyboardInterrupt: pass
     finally:
-        print("\nStopping...")
         if os.name == 'nt':
-            for p in [be, fe]: subprocess.call(['taskkill', '/F', '/T', '/PID', str(p.pid)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            for p in [be, fe]: subprocess.call(f"taskkill /F /T /PID {p.pid}", stdout=-1, stderr=-1)
         else:
             be.terminate(); fe.terminate()
-        print("Done.")
 
 if __name__ == "__main__":
-    start()
+    run()
