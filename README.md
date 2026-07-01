@@ -326,7 +326,19 @@ Fine-tuning quality is tracked with complementary metrics rather than a single n
 | **METEOR**    | Overlap with credit for synonyms and word order             |
 | **BERTScore** | Semantic (meaning-based) similarity, beyond surface overlap |
 
-During training, BLEU / chrF / METEOR are computed on the held-out split every epoch, and the checkpoint with the **best BLEU** is kept (`metric_for_best_model="bleu"`). Training ran for 3 epochs (final training loss ≈ **1.23**).
+During training, BLEU / chrF / METEOR are computed on the held-out `opus_books` (en-es) validation split (18,694 examples) every epoch, and the checkpoint with the **best BLEU** is kept (`metric_for_best_model="bleu"`). Training ran for 3 epochs.
+
+### Metric Scores per Epoch
+
+Every metric tracked during the 3-epoch run, on the held-out validation split (all values rise monotonically → the model keeps improving; epoch 3 is the kept checkpoint):
+
+| Epoch | Training Loss | Validation Loss | BLEU ↑ | chrF ↑ | METEOR ↑ |
+| :---: | :-----------: | :-------------: | :----: | :----: | :------: |
+| 1     | 1.2377        | 1.0787          | 0.0402 | 23.90  | 0.2152   |
+| 2     | 1.1853        | 1.0344          | 0.0516 | 25.87  | 0.2382   |
+| **3** | **1.1755**    | **1.0187**      | **0.0552** | **26.53** | **0.2415** |
+
+> BLEU/METEOR are 0–1 (higher = better); chrF is 0–100. Final `TrainOutput` training loss ≈ **1.23**.
 
 ### Did fine-tuning improve the model?
 
