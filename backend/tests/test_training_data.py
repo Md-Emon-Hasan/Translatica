@@ -16,7 +16,7 @@ class TestLoadTranslationDataset:
         mock_load_dataset.return_value = {"train": []}
         result = load_translation_dataset()
 
-        mock_load_dataset.assert_called_once_with("opus_books", "en-es")
+        mock_load_dataset.assert_called_once_with("Helsinki-NLP/opus_books", "en-es")
         assert result == {"train": []}
 
     @patch("training.data.load_dataset")
@@ -69,6 +69,15 @@ class TestPreprocessTranslationExamples:
 
         assert "labels" in result
 
+        # The source inputs must be prefixed with the T5 task prefix.
+        source_inputs = mock_tokenizer.call_args_list[0].args[0]
+        assert all(
+            s.startswith("translate English to Spanish: ") for s in source_inputs
+        )
+
+        # Labels must be tokenized via the text_target keyword.
+        assert "text_target" in mock_tokenizer.call_args_list[1].kwargs
+
 
 class TestPrepareDataset:
     """Tests for prepare_dataset function."""
@@ -76,23 +85,22 @@ class TestPrepareDataset:
     @patch("training.data.load_translation_dataset")
     @patch("training.data.load_tokenizer")
     def test_prepare_dataset(self, mock_load_tokenizer, mock_load_dataset):
-        """Test preparing full dataset."""
+        """Test preparing full dataset (split first, then map)."""
         from training.data import prepare_dataset
 
-        # Create mock split result
-        mock_split_result = {"train": [], "test": []}
+        # Final tokenized DatasetDict returned by .map()
+        mock_tokenized = {"train": [], "test": []}
 
-        # Create mock train subset with train_test_split method
+        # train_test_split() returns an object whose .map() gives the tokenized data
+        mock_split = MagicMock()
+        mock_split.map.return_value = mock_tokenized
+
+        # dataset["train"] -> object with train_test_split()
         mock_train_subset = MagicMock()
-        mock_train_subset.train_test_split.return_value = mock_split_result
+        mock_train_subset.train_test_split.return_value = mock_split
 
-        # Create mock tokenized dataset that returns mock_train_subset for "train" key
-        mock_tokenized = MagicMock()
-        mock_tokenized.__getitem__ = MagicMock(return_value=mock_train_subset)
-
-        # Create mock dataset with map method
         mock_dataset = MagicMock()
-        mock_dataset.map.return_value = mock_tokenized
+        mock_dataset.__getitem__ = MagicMock(return_value=mock_train_subset)
 
         # Setup mocks
         mock_load_dataset.return_value = mock_dataset
@@ -100,5 +108,7 @@ class TestPrepareDataset:
 
         result, tokenizer = prepare_dataset("test-checkpoint")
 
+        mock_train_subset.train_test_split.assert_called_once()
+        mock_split.map.assert_called_once()
         assert "train" in result
         assert "test" in result

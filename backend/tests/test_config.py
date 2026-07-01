@@ -31,6 +31,15 @@ class TestSettings:
         assert settings.NUM_BEAMS == 8
         assert settings.DEVICE in ["cuda", "cpu", "auto"]
 
+    def test_settings_base_model_and_prefix(self):
+        """Test T5 base model checkpoint and translation prefix settings."""
+        from app.core.config import Settings
+
+        settings = Settings()
+
+        assert settings.BASE_MODEL_CHECKPOINT == "t5-small"
+        assert settings.TRANSLATION_PREFIX == "translate English to Spanish: "
+
     def test_settings_paths_are_paths(self):
         """Test that path settings are Path objects."""
         from app.core.config import Settings

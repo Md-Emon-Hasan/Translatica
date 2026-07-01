@@ -38,7 +38,8 @@ def get_lora_config(
         LoraConfig instance
     """
     if target_modules is None:
-        target_modules = ["q_proj", "v_proj"]
+        # T5 attention layers are named q, k, v, o (NOT q_proj/v_proj).
+        target_modules = ["q", "v"]
 
     return LoraConfig(
         r=r,

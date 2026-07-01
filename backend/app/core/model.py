@@ -5,6 +5,7 @@ ML Model Manager for Translation
 from typing import Optional
 
 import torch
+from peft import PeftModel
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 from app.core.config import settings
@@ -63,8 +64,19 @@ class ModelManager:
         logger.info(f"Loading tokenizer from {settings.TOKENIZER_PATH}")
         self._tokenizer = AutoTokenizer.from_pretrained(settings.TOKENIZER_PATH)
 
-        logger.info(f"Loading model from {settings.MODEL_PATH}")
-        self._model = AutoModelForSeq2SeqLM.from_pretrained(settings.MODEL_PATH)
+        # The fine-tuned model is a LoRA adapter, not a full model. Load the
+        # base checkpoint (t5-small) first, then attach the adapter on top.
+        logger.info(f"Loading base model: {settings.BASE_MODEL_CHECKPOINT}")
+        base_model = AutoModelForSeq2SeqLM.from_pretrained(
+            settings.BASE_MODEL_CHECKPOINT
+        )
+
+        logger.info(f"Loading LoRA adapter from {settings.MODEL_PATH}")
+        peft_model = PeftModel.from_pretrained(base_model, str(settings.MODEL_PATH))
+
+        # Merge the LoRA weights into the base model for faster inference.
+        logger.info("Merging LoRA adapter into base model")
+        self._model = peft_model.merge_and_unload()
 
         logger.info(f"Moving model to device: {self.device}")
         self._model.to(self.device)
@@ -86,9 +98,12 @@ class ModelManager:
         if not self._is_loaded:
             raise RuntimeError("Model not loaded. Call load() first.")
 
+        # T5 needs the same task prefix that was used during fine-tuning.
+        prefixed_text = settings.TRANSLATION_PREFIX + text
+
         # Tokenize input
         inputs = self.tokenizer(
-            text,
+            prefixed_text,
             return_tensors="pt",
             padding=True,
             truncation=True,

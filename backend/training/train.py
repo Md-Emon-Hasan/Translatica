@@ -4,8 +4,8 @@ Main Training Script for Translation Model Fine-tuning
 Usage:
     python -m training.train
 
-This script fine-tunes the Helsinki-NLP/opus-mt-en-es model using LoRA + PEFT
-for English to Spanish translation.
+This script fine-tunes the t5-small model using LoRA + PEFT for English to
+Spanish translation.
 """
 
 import argparse
@@ -17,11 +17,12 @@ from training.model import create_peft_model, print_trainable_parameters
 from training.trainer import create_trainer, get_training_arguments
 
 # Default configuration
-DEFAULT_MODEL_CHECKPOINT = "Helsinki-NLP/opus-mt-en-es"
+DEFAULT_MODEL_CHECKPOINT = "t5-small"
 DEFAULT_OUTPUT_DIR = "./fine-tuned-model"
 DEFAULT_NUM_EPOCHS = 3
 DEFAULT_BATCH_SIZE = 16
-DEFAULT_LEARNING_RATE = 2e-5
+# Higher LR: t5-small must LEARN a new task (it was not pre-trained on en->es).
+DEFAULT_LEARNING_RATE = 1e-3
 
 
 def parse_args():

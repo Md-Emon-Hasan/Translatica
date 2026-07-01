@@ -3,8 +3,8 @@ Training Configuration and Trainer Setup
 """
 
 import evaluate
+import nltk
 import numpy as np
-import torch
 from transformers import (
     DataCollatorForSeq2Seq,
     Seq2SeqTrainer,
@@ -48,15 +48,18 @@ def get_training_arguments(
         logging_steps=logging_steps,
         save_strategy="epoch",
         predict_with_generate=True,
-        fp16=torch.cuda.is_available(),
+        generation_max_length=128,
+        # IMPORTANT: T5 + fp16 often gives NaN loss; keep it off.
+        fp16=False,
         load_best_model_at_end=True,
         metric_for_best_model="bleu",
+        greater_is_better=True,
     )
 
 
 def get_compute_metrics(tokenizer):
     """
-    Create a compute_metrics function for BLEU evaluation.
+    Create a compute_metrics function evaluating BLEU, chrF and METEOR.
 
     Args:
         tokenizer: Tokenizer for decoding
@@ -64,24 +67,61 @@ def get_compute_metrics(tokenizer):
     Returns:
         Compute metrics function
     """
-    bleu = evaluate.load("bleu")
+    # METEOR needs these NLTK resources.
+    for resource in ("wordnet", "omw-1.4", "punkt", "punkt_tab"):
+        try:
+            nltk.download(resource, quiet=True)
+        except Exception:  # pragma: no cover - best-effort resource download
+            pass
+
+    # Load the metrics once (more efficient than reloading every eval step).
+    bleu_metric = evaluate.load("bleu")  # word n-gram overlap
+    chrf_metric = evaluate.load("chrf")  # character n-gram (good for Spanish)
+    meteor_metric = evaluate.load("meteor")  # synonyms + word order
 
     def compute_metrics(eval_preds):
         preds, labels = eval_preds
 
-        # Replace -100 with pad token id
-        labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
+        # predict_with_generate can return a tuple; take the first element.
+        if isinstance(preds, tuple):
+            preds = preds[0]
 
-        # Decode predictions and labels
+        preds = np.array(preds)
+        labels = np.array(labels)
+
+        vocab_size = len(tokenizer)
+        # Replace ANY invalid token id (-100 or out-of-vocab) with pad token id
+        # -> this is what fixes the OverflowError during decoding.
+        preds = np.where(
+            (preds >= 0) & (preds < vocab_size), preds, tokenizer.pad_token_id
+        )
+        labels = np.where(
+            (labels >= 0) & (labels < vocab_size), labels, tokenizer.pad_token_id
+        )
+
         decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
         decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
 
-        # BLEU expects list of references
-        references = [[ref] for ref in decoded_labels]
+        decoded_preds = [p.strip() for p in decoded_preds]
+        decoded_labels = [label.strip() for label in decoded_labels]
 
-        result = bleu.compute(predictions=decoded_preds, references=references)
+        refs_nested = [[ref] for ref in decoded_labels]
 
-        return {"bleu": result["bleu"]}
+        bleu_result = bleu_metric.compute(
+            predictions=decoded_preds, references=refs_nested
+        )
+        chrf_result = chrf_metric.compute(
+            predictions=decoded_preds, references=refs_nested
+        )
+        meteor_result = meteor_metric.compute(
+            predictions=decoded_preds, references=decoded_labels
+        )
+
+        return {
+            "bleu": round(bleu_result["bleu"], 4),
+            "chrf": round(chrf_result["score"], 4),
+            "meteor": round(meteor_result["meteor"], 4),
+        }
 
     return compute_metrics
 

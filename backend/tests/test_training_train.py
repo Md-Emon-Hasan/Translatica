@@ -5,8 +5,9 @@ Tests for training.train module (main script)
 import sys
 from unittest.mock import MagicMock, patch
 
-# Mock evaluate module
+# Mock heavy optional deps pulled in transitively via training.trainer
 sys.modules["evaluate"] = MagicMock()
+sys.modules["nltk"] = MagicMock()
 
 
 class TestParseArgs:
@@ -19,11 +20,11 @@ class TestParseArgs:
 
         args = parse_args()
 
-        assert args.model_checkpoint == "Helsinki-NLP/opus-mt-en-es"
+        assert args.model_checkpoint == "t5-small"
         assert args.output_dir == "./fine-tuned-model"
         assert args.num_epochs == 3
         assert args.batch_size == 16
-        assert args.learning_rate == 2e-5
+        assert args.learning_rate == 1e-3
 
     @patch(
         "sys.argv",

@@ -31,9 +31,10 @@ class TestGetLoraConfig:
         assert config.r == 8
         assert config.lora_alpha == 32
         assert config.lora_dropout == 0.1
+        # T5 attention layers are named q, k, v, o (not q_proj/v_proj).
         # target_modules can be list or set, check contents
-        assert "q_proj" in config.target_modules
-        assert "v_proj" in config.target_modules
+        assert "q" in config.target_modules
+        assert "v" in config.target_modules
 
     def test_get_lora_config_custom(self):
         """Test LoRA config with custom values."""

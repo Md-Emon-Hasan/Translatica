@@ -1,8 +1,8 @@
 ---
-base_model: Helsinki-NLP/opus-mt-en-es
+base_model: t5-small
 library_name: peft
 tags:
-- base_model:adapter:Helsinki-NLP/opus-mt-en-es
+- base_model:adapter:t5-small
 - lora
 - transformers
 ---
@@ -203,4 +203,4 @@ Carbon emissions can be estimated using the [Machine Learning Impact calculator]
 [More Information Needed]
 ### Framework versions
 
-- PEFT 0.16.0
+- PEFT 0.19.1

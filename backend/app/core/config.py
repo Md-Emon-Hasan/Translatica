@@ -30,6 +30,11 @@ class Settings(BaseSettings):
     DATABASE_URL: str = f"sqlite+aiosqlite:///{DATABASE_PATH}"
 
     # Model settings
+    # The fine-tuned model on disk is a LoRA adapter, so we need the base
+    # checkpoint it was trained on (t5-small) to reconstruct the full model.
+    BASE_MODEL_CHECKPOINT: str = "t5-small"
+    # T5 is a multi-task model and requires a task prefix on every input.
+    TRANSLATION_PREFIX: str = "translate English to Spanish: "
     MAX_INPUT_LENGTH: int = 512
     MAX_OUTPUT_LENGTH: int = 256
     NUM_BEAMS: int = 8

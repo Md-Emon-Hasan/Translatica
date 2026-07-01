@@ -5,8 +5,11 @@ Tests for training.trainer module
 import sys
 from unittest.mock import MagicMock, patch
 
-# Mock evaluate module before importing trainer
+import numpy as np
+
+# Mock heavy optional deps before importing trainer
 sys.modules["evaluate"] = MagicMock()
+sys.modules["nltk"] = MagicMock()
 
 
 class TestGetTrainingArguments:
@@ -54,6 +57,35 @@ class TestGetComputeMetrics:
 
         # Verify it's callable
         assert callable(compute_metrics)
+
+    @patch("training.trainer.nltk")
+    @patch("training.trainer.evaluate")
+    def test_compute_metrics_returns_all_metrics(self, mock_evaluate, mock_nltk):
+        """Test the metrics function returns BLEU, chrF and METEOR."""
+        from training.trainer import get_compute_metrics
+
+        bleu_metric = MagicMock()
+        bleu_metric.compute.return_value = {"bleu": 0.5}
+        chrf_metric = MagicMock()
+        chrf_metric.compute.return_value = {"score": 42.0}
+        meteor_metric = MagicMock()
+        meteor_metric.compute.return_value = {"meteor": 0.6}
+        mock_evaluate.load.side_effect = [bleu_metric, chrf_metric, meteor_metric]
+
+        mock_tokenizer = MagicMock()
+        mock_tokenizer.pad_token_id = 0
+        mock_tokenizer.__len__.return_value = 100
+        mock_tokenizer.batch_decode.side_effect = [["hola"], ["hola"]]
+
+        compute_metrics = get_compute_metrics(mock_tokenizer)
+
+        # preds arrive as a tuple from predict_with_generate; labels use -100.
+        preds = (np.array([[1, 2, 3]]),)
+        labels = np.array([[1, 2, -100]])
+
+        result = compute_metrics((preds, labels))
+
+        assert result == {"bleu": 0.5, "chrf": 42.0, "meteor": 0.6}
 
 
 class TestCreateTrainer:
