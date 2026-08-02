@@ -7,6 +7,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 
 from app.core.database import get_db
+from app.services.translation import TranslationResult
 
 
 @pytest.fixture
@@ -59,6 +60,9 @@ async def client():
 
         # Configure the mock service
         MockService.translate.return_value = "Hola mundo"
+        MockService.translate_document.return_value = TranslationResult(
+            translation="Hola mundo", chunk_count=1, cached=False, duration_ms=1.0
+        )
 
         from httpx import ASGITransport, AsyncClient
 
@@ -85,6 +89,107 @@ async def client():
 
             # Clean up overrides
             app.dependency_overrides.clear()
+
+
+@pytest.fixture(autouse=True)
+def reset_cache_and_limiter():
+    """Clear the cache and the rate limit windows between tests."""
+    from app.core.cache import clear_cache, configure_cache
+    from app.core.rate_limit import limiter
+
+    configure_cache()
+    limiter.reset()
+    yield
+    clear_cache()
+    limiter.reset()
+
+
+@pytest.fixture
+def fake_loaded_manager():
+    """Create a mock manager that behaves like a loaded model."""
+    manager = MagicMock()
+    manager.is_loaded = True
+    manager.tokenizer = lambda text, add_special_tokens=False: {
+        "input_ids": text.split()
+    }
+    manager.generate_texts = MagicMock(
+        side_effect=lambda texts: [f"[es] {text}" for text in texts]
+    )
+    return manager
+
+
+@pytest.fixture
+async def pipeline_client(fake_loaded_manager):
+    """Create a test client running the real pipeline over a mocked model."""
+    from httpx import ASGITransport, AsyncClient
+
+    with (
+        patch("app.core.model.model_manager", fake_loaded_manager),
+        patch("app.services.translation.model_manager", fake_loaded_manager),
+        patch("app.main.model_manager", fake_loaded_manager),
+    ):
+        from app.main import app
+
+        async def override_get_db():
+            mock_session = MagicMock()
+            mock_session.add = MagicMock()
+            mock_session.commit = AsyncMock()
+            mock_session.refresh = AsyncMock()
+            yield mock_session
+
+        app.dependency_overrides[get_db] = override_get_db
+
+        async with AsyncClient(
+            transport=ASGITransport(app=app), base_url="http://test"
+        ) as client:
+            client._mock_manager = fake_loaded_manager
+            yield client
+
+        app.dependency_overrides.clear()
+
+
+@pytest.fixture
+async def temp_db_client(tmp_path):
+    """Create a test client backed by a temporary SQLite database."""
+    from httpx import ASGITransport, AsyncClient
+    from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
+
+    from app.core.database import Base
+    from app.main import app
+
+    db_path = tmp_path / "test_translations.db"
+    engine = create_async_engine(
+        f"sqlite+aiosqlite:///{db_path}",
+        connect_args={"check_same_thread": False},
+    )
+    session_factory = async_sessionmaker(
+        engine, expire_on_commit=False, autoflush=False
+    )
+
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+    async def override_get_db():
+        async with session_factory() as session:
+            yield session
+
+    app.dependency_overrides[get_db] = override_get_db
+
+    mock_manager = MagicMock()
+    mock_manager.is_loaded = True
+
+    with (
+        patch("app.core.model.model_manager", mock_manager),
+        patch("app.main.model_manager", mock_manager),
+    ):
+        async with AsyncClient(
+            transport=ASGITransport(app=app), base_url="http://test"
+        ) as client:
+            client._session_factory = session_factory
+            yield client
+
+    app.dependency_overrides.clear()
+    await engine.dispose()
 
 
 @pytest.fixture

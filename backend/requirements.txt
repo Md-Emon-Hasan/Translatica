@@ -24,6 +24,10 @@ protobuf>=4.25.0
 sqlalchemy>=2.0.0
 aiosqlite>=0.19.0
 
+# Caching & rate limiting
+cachetools>=5.3.0
+slowapi>=0.1.9
+
 # Template rendering
 jinja2>=3.1.0
 python-multipart>=0.0.6

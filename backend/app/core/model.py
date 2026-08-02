@@ -2,7 +2,8 @@
 ML Model Manager for Translation
 """
 
-from typing import Optional
+import time
+from typing import Any, Dict, List, Optional
 
 import torch
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
@@ -11,6 +12,37 @@ from app.core.config import settings
 from app.utils.logger import get_logger
 
 logger = get_logger("model")
+
+
+def build_generation_kwargs(**overrides: Any) -> Dict[str, Any]:
+    """
+    Build model.generate() kwargs from config (num_beams=1 falls back to greedy).
+
+    Args:
+        **overrides: Values that override the configured ones
+
+    Returns:
+        Keyword arguments for model.generate()
+    """
+    if settings.GEN_NUM_BEAMS <= 1:
+        kwargs: Dict[str, Any] = {
+            "max_length": settings.MAX_OUTPUT_LENGTH,
+            "num_beams": 1,
+            "early_stopping": settings.GEN_EARLY_STOPPING,
+            "do_sample": False,
+        }
+    else:
+        kwargs = {
+            "num_beams": settings.GEN_NUM_BEAMS,
+            "max_new_tokens": settings.GEN_MAX_NEW_TOKENS,
+            "length_penalty": settings.GEN_LENGTH_PENALTY,
+            "early_stopping": settings.GEN_EARLY_STOPPING,
+            "no_repeat_ngram_size": settings.GEN_NO_REPEAT_NGRAM_SIZE,
+            "do_sample": False,
+        }
+
+    kwargs.update(overrides)
+    return kwargs
 
 
 class ModelManager:
@@ -109,6 +141,49 @@ class ModelManager:
             translated_tokens[0], skip_special_tokens=True
         )
         return translated_text
+
+    def count_tokens(self, text: str) -> int:
+        """Count the input tokens of a text."""
+        encoded = self.tokenizer(text, add_special_tokens=False)
+        return len(encoded["input_ids"])
+
+    def generate_texts(self, texts: List[str]) -> List[str]:
+        """
+        Translate several texts in one batched forward pass.
+
+        Args:
+            texts: English texts to translate
+
+        Returns:
+            Spanish translations in the same order
+        """
+        if not self._is_loaded:
+            raise RuntimeError("Model not loaded. Call load() first.")
+
+        if not texts:
+            return []
+
+        gen_kwargs = build_generation_kwargs()
+
+        inputs = self.tokenizer(
+            texts,
+            return_tensors="pt",
+            padding=True,
+            truncation=True,
+            max_length=settings.MAX_INPUT_TOKENS,
+        ).to(self.device)
+
+        started = time.perf_counter()
+        with torch.no_grad():
+            output_tokens = self.model.generate(**inputs, **gen_kwargs)
+        duration_ms = (time.perf_counter() - started) * 1000
+
+        logger.info(
+            f"Generated {len(texts)} sequence(s) in {duration_ms:.1f}ms "
+            f"(num_beams={gen_kwargs.get('num_beams')})"
+        )
+
+        return self.tokenizer.batch_decode(output_tokens, skip_special_tokens=True)
 
     def cleanup(self) -> None:
         """Cleanup model resources."""
