@@ -492,7 +492,7 @@ Logs are stored in `logs/` directory:
 ## Author
 
 **Md Emon Hasan** 
-**Email:** emon.mlengineer@gmail.com | [GitHub](https://github.com/Md-Emon-Hasan) | [LinkedIn](https://www.linkedin.com/in/md-emon-hasan-695483237/) | [WhatsApp](https://wa.me/8801834363533)
+**Email:** emon.mlengineer@gmail.com | [Portfolio](https://emonlabs-ai.hitechparks.com/) | [GitHub](https://github.com/Md-Emon-Hasan) | [LinkedIn](https://www.linkedin.com/in/md-emon-hasan-695483237/) | [WhatsApp](https://wa.me/8801834363533)
 
 ---
 
