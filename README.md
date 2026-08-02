@@ -136,6 +136,8 @@ The easiest way to run the full application (Frontend + Backend) is using the un
    - **Frontend UI:** [http://localhost:5173](http://localhost:5173)
    - **Backend API:** [http://localhost:8000](http://localhost:8000)
 
+> **Note:** `run.py` is self-contained — even without steps 2–3, running `python run.py` from a fresh clone will create its own `.venv`, install `backend/requirements.txt`, run `npm install` if `frontend/node_modules` is missing, then start the FastAPI backend (port 8000) and the Vite dev server (port 5173) together. Stopping it (Ctrl+C) stops both processes.
+
 ---
 
 ## Project Structure
@@ -321,96 +323,11 @@ Every translation request flows through **validation → cache → chunking → 
 
 ### Sentence-aware chunking
 
-`transformers` **silently truncates** input longer than the model's limit instead of raising, so long literary paragraphs were being cut off mid-translation with no error at all. `app/utils/chunking.py` fixes this:
-
-1. The document is split into paragraph blocks on blank lines.
-2. Each block is split on sentence boundaries (`.`, `!`, `?`, plus the Spanish opening marks `¿` / `¡`).
-3. Sentences are greedily packed into chunks that stay under `CHUNK_TOKEN_BUDGET`, measured in **real tokenizer tokens**, not characters. If the tokenizer is not reachable, a character-based estimate is used and a warning is logged.
-4. A single sentence over budget is split further on clause boundaries (`;`, `:`, `,`) and, as a last resort, on a hard token window. **No text is ever dropped.**
-5. Chunks are translated and rejoined with single spaces; the original `\n\n` paragraph breaks are restored.
-
-The response carries an optional `chunk_count` so the split is observable.
+`transformers` **silently truncates** input longer than the model's limit instead of raising, so long literary paragraphs were being cut off mid-translation with no error at all. The response carries an optional `chunk_count` so the split is observable.
 
 ### Beam search decoding
 
 Generation parameters all come from configuration — nothing is hardcoded — and `do_sample` is always `False`, because caching is only correct if identical input reliably produces identical output. Setting `GEN_NUM_BEAMS=1` restores the plain greedy path, so the change is fully reversible.
-
-Beam search is **noticeably slower on CPU**, which is what the Render deployment uses, so inference duration is logged per request through the existing logger. `backend/compare_decoding.py` prints greedy and beam-search output side by side for a fixed set of sample sentences — a qualitative eye-test only; it computes no metrics and makes no BLEU claims.
-
-### Validation
-
-| Rule | Behaviour |
-| ---- | --------- |
-| Empty / whitespace-only | `422` with a readable message |
-| Longer than `MAX_INPUT_CHARS` | `422` |
-| No alphabetic characters | `422` |
-| Looks like Spanish already | **`200` with a `warning` field** |
-
-Validation failures use FastAPI's standard `422`; the response body carries a human-readable `detail` string (plus a matching `error` field and a per-field `errors` list), which is exactly what the frontend renders.
-
-The source-language check is a lightweight heuristic — Spanish-only characters plus a small set of common Spanish function words. It **warns instead of blocking** because the heuristic will produce false positives, and rejecting a valid request is worse than attaching a warning to a successful one.
-
-### Caching
-
-The cache is a `cachetools.TTLCache` guarded by a `threading.Lock` on every read and write (`TTLCache` is not thread-safe, and requests are served from FastAPI's threadpool). It is deliberately **in-memory rather than Redis**: the deployment is a single instance, it needs zero extra infrastructure, and `python run.py` stays runnable after a plain `pip install -r backend/requirements.txt`.
-
-The key is a SHA-256 hash of the normalised text **plus the generation parameters**:
-
-```
-sha256("<normalised text>|<num_beams>|<max_new_tokens>|<length_penalty>|<no_repeat_ngram_size>")
-```
-
-Including the generation parameters means changing `num_beams` cannot serve stale results produced by the old decoding strategy. Caching happens at **both** the whole-request and the individual-chunk level, so a sentence repeated across paragraphs or across requests is free. Empty, `None` and error results are never cached.
-
-### Batching
-
-`POST /translate/batch` does **not** loop over single translations. Every item is validated, checked against the cache, and chunked; all remaining chunks from all items are tokenized together with `padding=True` and sent through **one** `model.generate()` call, then decoded and reassembled per item. Invalid items fail individually — each result carries `success` and either `translation` or `error` — so one bad entry never fails the batch, and the results always come back in the submitted order.
-
-### Rate limiting
-
-Limits are enforced with `slowapi`. Because the API runs behind Nginx and Render's router, `get_remote_address` would see only the proxy and bucket every user together, so the key function reads the first entry of `X-Forwarded-For` and falls back to the peer address. Exceeding a limit returns a clean JSON `429` with a `Retry-After` header and logs the event:
-
-```json
-{
-  "detail": "Rate limit exceeded: 20 per 1 minute. Please retry in 48s.",
-  "error": "Rate limit exceeded: 20 per 1 minute. Please retry in 48s.",
-  "limit": "20 per 1 minute",
-  "retry_after": 48
-}
-```
-
-### Configuration
-
-All of the following are `Settings` fields in `app/core/config.py` and can be overridden by environment variables or `.env`.
-
-| Variable | Default | Purpose |
-| -------- | ------- | ------- |
-| `GEN_NUM_BEAMS` | `4` | Beam count (`1` = greedy fallback) |
-| `GEN_MAX_NEW_TOKENS` | `256` | Maximum tokens generated per chunk |
-| `GEN_LENGTH_PENALTY` | `1.0` | Beam search length penalty |
-| `GEN_EARLY_STOPPING` | `True` | Stop when all beams finish |
-| `GEN_NO_REPEAT_NGRAM_SIZE` | `3` | Blocks repetition loops |
-| `MAX_INPUT_TOKENS` | `384` | Hard tokenizer truncation ceiling |
-| `CHUNK_TOKEN_BUDGET` | `256` | Token budget per chunk |
-| `CHARS_PER_TOKEN_ESTIMATE` | `4` | Fallback estimate when no tokenizer |
-| `MIN_INPUT_CHARS` | `1` | Minimum accepted input length |
-| `MAX_INPUT_CHARS` | `10000` | Maximum accepted input length |
-| `LANG_CHECK_ENABLED` | `True` | Enable the Spanish-input heuristic |
-| `CACHE_ENABLED` | `True` | Disable for a transparent pass-through |
-| `CACHE_TTL_SECONDS` | `3600` | Entry lifetime |
-| `CACHE_MAXSIZE` | `500` | Maximum cached entries |
-| `RATE_LIMIT_ENABLED` | `True` | Master switch for all limits |
-| `RATE_LIMIT_TRANSLATE` | `20/minute` | Limit for `POST /translate` |
-| `RATE_LIMIT_BATCH` | `5/minute` | Limit for `POST /translate/batch` |
-| `RATE_LIMIT_HISTORY` | `60/minute` | Limit for `GET /history` |
-| `RATE_LIMIT_STATS` | `60/minute` | Limit for `GET /stats` |
-| `MAX_BATCH_SIZE` | `20` | Maximum items per batch |
-| `MAX_BATCH_CHARS` | `50000` | Maximum characters per batch |
-| `HISTORY_DEFAULT_LIMIT` | `20` | Default `/history` page size |
-| `HISTORY_MAX_LIMIT` | `100` | Maximum `/history` page size |
-| `HISTORY_TEXT_PREVIEW_CHARS` | `200` | Truncation length in list responses |
-
----
 
 ## Model Training
 
@@ -451,19 +368,6 @@ Run the full backend test suite:
 cd backend
 pytest tests/ -v --cov=app --cov=training --cov-report=term-missing
 ```
-
-**Current Coverage:** ~98% (193 tests passed)
-
-Alongside the original API, config, model, service and training tests, the suite covers:
-
-- `test_chunking.py` — sentence splitting, token-budget packing, over-long sentences, paragraph preservation
-- `test_generation_config.py` — beam parameters from config, greedy fallback, config overrides
-- `test_validation.py` — 422 rules, readable messages, Spanish input warning instead of rejection
-- `test_cache.py` — hits/misses, key normalisation, generation params in the key, TTL expiry, disable switch
-- `test_rate_limit.py` — limits, 429 body, `X-Forwarded-For` bucketing, unlimited endpoints
-- `test_batch.py` — order preservation, partial success, cache reuse, a single `generate()` call
-- `test_history_stats.py` — pagination, filters, truncation, empty-database behaviour
-- `test_model_info.py` — every field present and sourced from config
 
 ---
 
