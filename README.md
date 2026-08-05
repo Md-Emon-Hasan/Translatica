@@ -2,9 +2,9 @@
 
 [![CI/CD](https://github.com/Md-Emon-Hasan/Translatica/actions/workflows/main.yml/badge.svg)](https://github.com/Md-Emon-Hasan/Translatica/actions) [![Python](https://img.shields.io/badge/python-3.11-blue)](https://python.org) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white) [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi)](https://fastapi.tiangolo.com) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB) ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=flat&logo=vite&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=flat&logo=tailwind-css&logoColor=white) ![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=flat&logo=PyTorch&logoColor=white) ![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face-yellow) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=flat&logo=docker&logoColor=white) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Translatica** is a production-ready AI-powered **English → Spanish literary translation system** designed to preserve tone, context, and narrative style. It leverages a **LoRA-fine-tuned transformer (PEFT)** to deliver high-quality translations with low inference cost, supported by a modular NLP pipeline, BLEU-based evaluation, and a clean full-stack web interface.
+Translating a novel from English to Spanish by hand is slow, and machine-translation tools flatten the author's voice or cut long passages short. **Translatica** returns a Spanish translation that keeps the original's tone and style, answers consistently, keeps a record of every translation it makes, and warns when text looks like it's already Spanish instead of guessing silently. That combination is what turns it from a research demo into something a publisher could switch on for readers today.
 
-The system is **Dockerized and deployment-ready**, and can be scaled as a **SaaS product** for publishers and content platforms—demonstrating strong expertise in **model optimization, end-to-end system design, and business-oriented AI engineering**.
+Under the hood, Translatica is a modular monolith: a **FastAPI** backend serving a **LoRA-adapted (PEFT)** fine-tune of Helsinki-NLP's `opus-mt-en-es`, trained on the `opus_books` literary corpus and scored with BLEU. Requests pass through Pydantic validation, a thread-safe TTL cache keyed on text and decoding parameters, chunking that routes around `transformers`' silent truncation, and batched beam-search generation, then get logged to SQLite — plus a proxy-aware rate limiter, deterministic decoding, a **React 19 + TypeScript + Tailwind** frontend, a 193-test CI suite, and Docker images for both services on Render. That plumbing — caching, rate limits, CI — separates a **production-ready service** from a notebook that only works as a demo.
 
 [![Project demo video](https://github.com/user-attachments/assets/704e7d2d-af01-46ee-998f-7342735db1b1)](https://github.com/user-attachments/assets/704e7d2d-af01-46ee-998f-7342735db1b1)
 
@@ -135,8 +135,6 @@ The easiest way to run the full application (Frontend + Backend) is using the un
    ```
    - **Frontend UI:** [http://localhost:5173](http://localhost:5173)
    - **Backend API:** [http://localhost:8000](http://localhost:8000)
-
-> **Note:** `run.py` is self-contained — even without steps 2–3, running `python run.py` from a fresh clone will create its own `.venv`, install `backend/requirements.txt`, run `npm install` if `frontend/node_modules` is missing, then start the FastAPI backend (port 8000) and the Vite dev server (port 5173) together. Stopping it (Ctrl+C) stops both processes.
 
 ---
 
