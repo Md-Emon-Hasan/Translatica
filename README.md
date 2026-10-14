@@ -351,7 +351,7 @@ python -m backend.training.train \
 | ---------------- | ---------------------------- |
 | Base Model       | `Helsinki-NLP/opus-mt-en-es` |
 | Dataset          | `opus_books` (en-es)         |
-| LoRA Rank        | 8                            |
+| LoRA Rank        | 16                            |
 | LoRA Alpha       | 32                           |
 | Target Modules   | `["q_proj", "v_proj"]`       |
 | Trainable Params | ~0.38%                       |
