@@ -12,6 +12,12 @@ Under the hood, Translatica is a modular monolith: a **FastAPI** backend serving
 
 ---
 
+## Fine Tuned LLM
+
+[![Model](https://img.shields.io/badge/%F0%9F%A4%97%20Model-omt--en--es--books-yellow)](https://huggingface.co/emonHasan01/omt-en-es-books)
+
+---
+
 ## Live Demo
 
 [**Try Translatica Live**](https://bilingual-bridge.onrender.com/)
@@ -84,57 +90,6 @@ Translatica follows a **modular monolithic architecture** that clearly separates
 │ Helsinki-NLP/opus-mt-en-es (PEFT)  │
 └────────────────────────────────────┘
 ```
-
----
-
-## Prerequisites
-
-Before you begin, ensure you have the following installed:
-- **Python 3.11+**
-- **Node.js 18+** & **npm**
-- **Git**
-
----
-
-## Quick Start
-
-The easiest way to run the full application (Frontend + Backend) is using the unified runner.
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Md-Emon-Hasan/Translatica.git
-   cd Translatica
-   ```
-
-2. **Setup Backend:**
-   ```bash
-   # Create virtual environment
-   python -m venv venv
-
-   # Activate it
-   # Windows:
-   venv\Scripts\activate
-   # Mac/Linux:
-   # source venv/bin/activate
-
-   # Install dependencies
-   pip install -r backend/requirements.txt
-   ```
-
-3. **Setup Frontend:**
-   ```bash
-   cd frontend
-   npm install
-   cd ..
-   ```
-
-4. **Run the Application:**
-   ```bash
-   # Make sure venv is active
-   python run.py
-   ```
-   - **Frontend UI:** [http://localhost:5173](http://localhost:5173)
-   - **Backend API:** [http://localhost:8000](http://localhost:8000)
 
 ---
 
@@ -272,22 +227,61 @@ Translatica/
 
 ---
 
-## Development
+## Model Training
 
-If you prefer to run services individually for debugging:
+To fine-tune the translation model:
 
-### Backend (FastAPI)
+### Train the Model
+
 ```bash
-cd backend
-# Ensure venv is active
-python -m uvicorn app.main:app --reload
+# Standard training
+python -m backend.training.train
+
+# Custom parameters
+python -m backend.training.train \
+    --model-checkpoint "Helsinki-NLP/opus-mt-en-es" \
+    --output-dir "./fine-tuned-model" \
+    --num-epochs 3 \
+    --batch-size 16
 ```
 
-### Frontend (React + Vite)
-```bash
-cd frontend
-npm run dev
-```
+### Training Configuration
+
+| Parameter        | Default                      |
+| ---------------- | ---------------------------- |
+| Base Model       | `Helsinki-NLP/opus-mt-en-es` |
+| Dataset          | `opus_books` (en-es)         |
+| LoRA Rank        | 16                            |
+| LoRA Alpha       | 32                           |
+| Target Modules   | `["q_proj", "v_proj"]`       |
+| Trainable Params | ~0.38%                       |
+
+---
+
+## Results
+
+Scored with **sacreBLEU** on 1,000 held-out `opus_books` en-es pairs, beam size 4.
+
+| | sacreBLEU | vs base |
+| --- | --- | --- |
+| `Helsinki-NLP/opus-mt-en-es` (untouched) | 17.09 | — |
+| **+ LoRA adapter** | **19.99** | **+2.90** |
+
+Per epoch, against the base model's 17.09:
+
+| Epoch | sacreBLEU |
+| --- | --- |
+| 1 | 19.23 |
+| 2 | 19.89 |
+| 3 | 19.99 |
+
+The baseline row is the point. Without it, "19.99 BLEU" says nothing about whether the
+fine-tune helped — `opus-mt-en-es` is already a strong translator, and any adapter has to
+beat it rather than merely score well.
+
+The gain is real but diffuse: on most sentences the base and adapted models produce
+identical output, and the difference shows up as small shifts in word choice. Full
+breakdown on the [model card](https://huggingface.co/emonHasan01/omt-en-es-books).
 
 ---
 
@@ -327,34 +321,56 @@ Every translation request flows through **validation → cache → chunking → 
 
 Generation parameters all come from configuration — nothing is hardcoded — and `do_sample` is always `False`, because caching is only correct if identical input reliably produces identical output. Setting `GEN_NUM_BEAMS=1` restores the plain greedy path, so the change is fully reversible.
 
-## Model Training
+---
 
-To fine-tune the translation model:
+## Prerequisites
 
-### Train the Model
+Before you begin, ensure you have the following installed:
+- **Python 3.11+**
+- **Node.js 18+** & **npm**
+- **Git**
 
-```bash
-# Standard training
-python -m backend.training.train
+---
 
-# Custom parameters
-python -m backend.training.train \
-    --model-checkpoint "Helsinki-NLP/opus-mt-en-es" \
-    --output-dir "./fine-tuned-model" \
-    --num-epochs 3 \
-    --batch-size 16
-```
+## Quick Start
 
-### Training Configuration
+The easiest way to run the full application (Frontend + Backend) is using the unified runner.
 
-| Parameter        | Default                      |
-| ---------------- | ---------------------------- |
-| Base Model       | `Helsinki-NLP/opus-mt-en-es` |
-| Dataset          | `opus_books` (en-es)         |
-| LoRA Rank        | 16                            |
-| LoRA Alpha       | 32                           |
-| Target Modules   | `["q_proj", "v_proj"]`       |
-| Trainable Params | ~0.38%                       |
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Md-Emon-Hasan/Translatica.git
+   cd Translatica
+   ```
+
+2. **Setup Backend:**
+   ```bash
+   # Create virtual environment
+   python -m venv venv
+
+   # Activate it
+   # Windows:
+   venv\Scripts\activate
+   # Mac/Linux:
+   # source venv/bin/activate
+
+   # Install dependencies
+   pip install -r backend/requirements.txt
+   ```
+
+3. **Setup Frontend:**
+   ```bash
+   cd frontend
+   npm install
+   cd ..
+   ```
+
+4. **Run the Application:**
+   ```bash
+   # Make sure venv is active
+   python run.py
+   ```
+   - **Frontend UI:** [http://localhost:5173](http://localhost:5173)
+   - **Backend API:** [http://localhost:8000](http://localhost:8000)
 
 ---
 
@@ -380,14 +396,6 @@ docker-compose up --build
 # Run in background
 docker-compose up -d
 ```
-
----
-
-## Logs
-
-Logs are stored in `logs/` directory:
-- `app.log` - Application logs
-- `training.log` - Training logs
 
 ---
 
